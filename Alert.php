@@ -5,6 +5,7 @@
 class Alert
 {
 	private $_id;
+	private $_userId;
 	private $_lat;
 	private $_lng;
 	private $_title;
@@ -37,6 +38,7 @@ class Alert
 	//GETTERS
 
 	public function id()			{ return $this->_id; }
+	public function userId()	{ return $this->_userId; }
 	public function lat()			{ return $this->_lat; }
 	public function lng()			{ return $this->_lng; }
 	public function title()		{ return $this->_title; }
@@ -62,6 +64,12 @@ class Alert
     	trigger_error('ID must be an integer!', E_USER_ERROR);
 			return;	
 			
+	}
+
+	public function setUserId($userId)
+	{
+	    $userId = (int) $userId;
+      $this->_userId = $userId;	
 	}
 
 	public function setLat($lat)

@@ -21,10 +21,11 @@ class AlertsManager
 	{
 		$q = $this->_db->prepare('
 			INSERT INTO alerts
-			(lat, lng, title, text, dateMin, dateMax, type, status) 
+			(userId, lat, lng, title, text, dateMin, dateMax, type, status) 
 			VALUES
-			(:lat, :lng, :title, :text, :dateMin, :dateMax, :type, :status) 
+			(:userId, :lat, :lng, :title, :text, :dateMin, :dateMax, :type, :status) 
 		');
+		$q->bindValue(':userId', $alert->userId());
 		$q->bindValue(':lat', $alert->lat());
 		$q->bindValue(':lng', $alert->lng());
 		$q->bindValue(':title', $alert->title());
@@ -45,7 +46,7 @@ class AlertsManager
 		if(is_int($id))
 		{	
 			$q = $this->_db->query('
-				SELECT id, lat, lng, title, text, dateMin, dateMax, type, status
+				SELECT id, userId, lat, lng, title, text, dateMin, dateMax, type, status
 				FROM alerts 
 				WHERE id = '.$id
 			);
@@ -54,6 +55,27 @@ class AlertsManager
 		}
 	}
 
+	public function getList($userId)
+	{
+		$list = [];
+
+		if(is_int($userId))
+		{
+			$q = $this->_db->query('
+				SELECT id, userId, lat, lng, title, text, dateMin, dateMax, type, status
+				FROM alerts 
+				WHERE userId = '.$userId
+			);
+			
+			while ($datas = $q->fetch(PDO::FETCH_ASSOC))
+			{
+				$list[] = new Alert($datas);
+			}
+		}
+
+		return $list;
+	}	
+
 	// UPDATE
 	// return TRUE if affected else FALSE
 	public function update(Alert $alert)
@@ -61,6 +83,7 @@ class AlertsManager
 	    $q = $this->_db->prepare('
 	    	UPDATE alerts 
 	    	SET 
+	    		userId 	= :userId, 
 	    		lat 	= :lat, 
 	    		lng 	= :lng, 
 	    		title 	= :title, 
@@ -72,6 +95,7 @@ class AlertsManager
 	    	WHERE id = :id
 	    ');
 	    
+	    $q->bindValue(':userId', $alert->userId(), PDO::PARAM_INT);
 	    $q->bindValue(':lat', $alert->lat(), PDO::PARAM_STR);
 	    $q->bindValue(':lng', $alert->lng(), PDO::PARAM_STR);
 	    $q->bindValue(':title', $alert->title(), PDO::PARAM_STR);
