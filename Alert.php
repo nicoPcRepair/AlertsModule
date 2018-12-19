@@ -56,7 +56,12 @@ class Alert
 	    if($id > 0)
 	    {
 	      $this->_id = $id;
-	    }	
+	      return;	
+	    }
+
+    	trigger_error('ID must be an integer!', E_USER_ERROR);
+			return;	
+			
 	}
 
 	public function setLat($lat)
@@ -85,7 +90,11 @@ class Alert
 	    if(is_string($title))
 	    {
 	      $this->_title = $title;
+	      return;
 	    }		
+
+    	trigger_error('Empty title!', E_USER_ERROR);
+			return;		    
 	}	
 
 	public function setText($text)
@@ -93,7 +102,11 @@ class Alert
 	    if(is_string($text))
 	    {
 	      $this->_text = $text;
+	      return;
 	    }		
+
+    	trigger_error('Empty text!', E_USER_ERROR);
+			return;		    
 	}
 
 	public function setDateMin($dateMin)

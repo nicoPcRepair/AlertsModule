@@ -15,7 +15,8 @@ class AlertsManager
 	}
 
 
-	//CREATE
+	// CREATE
+	// return TRUE if executed else FALSE
 	public function add(Alert $alert)
 	{
 		$q = $this->_db->prepare('
@@ -34,11 +35,11 @@ class AlertsManager
 		$q->bindValue(':status', $alert->status());
 		return $q->execute();
 
-		//if($q->execute()) echo 'inserted'; else echo 'error';
 		//$q->debugDumpParams();
 	}
 
-	//READ
+	// READ
+	// return Alert object if found else NULL
 	public function get($id)
 	{
 		if(is_int($id))
@@ -48,48 +49,65 @@ class AlertsManager
 				FROM alerts 
 				WHERE id = '.$id
 			);
-			
+
 			if($datas = $q->fetch(PDO::FETCH_ASSOC)) return new Alert($datas);
 		}
 	}
 
-	//UPDATE
+	// UPDATE
+	// return TRUE if affected else FALSE
 	public function update(Alert $alert)
 	{
-    $q = $this->_db->prepare('
-    	UPDATE alerts 
-    	SET 
-    		lat 	= :lat, 
-    		lng 	= :lng, 
-    		title 	= :title, 
-    		text 	= :text, 
-    		dateMin = :dateMin, 
-    		dateMax = :dateMax, 
-    		type 	= :type, 
-    		status 	= :status 
-    	WHERE id = :id
-    ');
-    
-    $q->bindValue(':lat', $alert->lat(), PDO::PARAM_STR);
-    $q->bindValue(':lng', $alert->lng(), PDO::PARAM_STR);
-    $q->bindValue(':title', $alert->title(), PDO::PARAM_STR);
-    $q->bindValue(':text', $alert->text(), PDO::PARAM_STR);
-    $q->bindValue(':dateMin', $alert->dateMin(), PDO::PARAM_INT);
-    $q->bindValue(':dateMax', $alert->dateMax(), PDO::PARAM_INT);
-    $q->bindValue(':dateMax', $alert->type(), PDO::PARAM_INT);
-    $q->bindValue(':status', $alert->status(), PDO::PARAM_INT);
-    $q->execute();
+	    $q = $this->_db->prepare('
+	    	UPDATE alerts 
+	    	SET 
+	    		lat 	= :lat, 
+	    		lng 	= :lng, 
+	    		title 	= :title, 
+	    		text 	= :text, 
+	    		dateMin = :dateMin, 
+	    		dateMax = :dateMax, 
+	    		type 	= :type, 
+	    		status 	= :status 
+	    	WHERE id = :id
+	    ');
+	    
+	    $q->bindValue(':lat', $alert->lat(), PDO::PARAM_STR);
+	    $q->bindValue(':lng', $alert->lng(), PDO::PARAM_STR);
+	    $q->bindValue(':title', $alert->title(), PDO::PARAM_STR);
+	    $q->bindValue(':text', $alert->text(), PDO::PARAM_STR);
+	    $q->bindValue(':dateMin', $alert->dateMin(), PDO::PARAM_INT);
+	    $q->bindValue(':dateMax', $alert->dateMax(), PDO::PARAM_INT);
+	    $q->bindValue(':type', $alert->type(), PDO::PARAM_INT);
+	    $q->bindValue(':status', $alert->status(), PDO::PARAM_INT);
+	    $q->bindValue(':id', $alert->id(), PDO::PARAM_INT);
+	    $q->execute();
+
+	    if(($q->rowCount() == 0)) return FALSE;
+	    return TRUE;  
 	}
 
-	//DELETE
+	// DELETE
 	public function delete(Alert $alert)
 	{
-		$this->_db->exec('DELETE FROM alerts WHERE id = '.$alert->id());
+		// not really a delete method
+		// put only status to ZERO
+
+		//real DELETE method :
+		//$this->_db->exec('DELETE FROM alerts WHERE id = '.$alert->id());
+
+	    $q = $this->_db->prepare('
+	    	UPDATE alerts 
+	    	SET status = 0 
+	    	WHERE id = :id
+	    ');
+	    
+	    $q->bindValue(':id', $alert->id(), PDO::PARAM_INT);
+	    $q->execute();
+
+	    if(($q->rowCount() == 0)) return FALSE;
+	    return TRUE; 		
 	}
-
-
-
-
 
 }
 

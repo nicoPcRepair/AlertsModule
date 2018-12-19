@@ -8,14 +8,14 @@ spl_autoload_register('loadClass');
 
 $array = array(
 	'id'			=> 1,
-	'lat'			=> 20.101,
-	'lng' 		=> -69.123,
-	'title' 	=> 'test',
-	'text' 		=> 'test2',
+	'lat'			=> 123.45,
+	'lng' 		=> -4.56,
+	'title' 	=> 'XYZ',
+	'text' 		=> 'OOOOOOOO',
 	'dateMin' => time(),
 	'dateMax' => time() + (7 * 24 * 60 * 60),
 	'type' 		=> 1,
-	'status' 	=> 1
+	'status' 	=> 99
 );
 $alert = new Alert($array);
 
@@ -29,9 +29,11 @@ echo '</pre>';
 */
 
 
-$alertsManager->add($alert);
+//$alertsManager->add($alert);
 
-$getAlert = $alertsManager->get(1);
+//$getAlert = $alertsManager->get(1);
+$getAlert = $alertsManager->update($alert);
+
 
 echo '<pre>';
 var_dump($getAlert);
