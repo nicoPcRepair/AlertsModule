@@ -1,4 +1,5 @@
 <?php
+/*
 $array = array(
 	//'id'			=> 1,
 	'userId'	=> 1,
@@ -11,11 +12,11 @@ $array = array(
 	'type' 		=> 1,
 	'status' 	=> 1
 );
+*/
 
 function getAlertsbyUserId($db,$userId){
 
 	$alertsManager = new AlertsManager($db);
-	//$alertsManager->add(new Alert($array));
 	return $alertsManager->getList($userId);
 }
 
