@@ -17,7 +17,7 @@ $array = array(
 function getAlertsbyUserId($db,$userId){
 
 	$alertsManager = new AlertsManager($db);
-	return $alertsManager->getList($userId);
+	return $alertsManager->getAlertsbyUserId($userId);
 }
 
 ?>

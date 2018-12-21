@@ -4,6 +4,8 @@ echo '<pre>';
 var_dump($list);
 echo '</pre>';
 */
+
+/*
 if(!empty($listAlerts))
 {
 	foreach ($listAlerts as $alert) {
@@ -18,5 +20,8 @@ if(!empty($listAlerts))
 		echo "</div>";
 	}
 }
+*/
+
+echo 'welcome HOME';
 
 ?>

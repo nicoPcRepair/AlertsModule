@@ -4,7 +4,7 @@ include('models/'.basename(__FILE__));
 /////////////////////////////////////////////////////////////////////////
 
 
-//$listAlerts = getAlertsbyUserId($db,1);
+$listAlerts = getAlertsbyLocation($db,0,0);
 
 
 

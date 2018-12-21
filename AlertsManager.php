@@ -55,7 +55,7 @@ class AlertsManager
 		}
 	}
 
-	public function getList($userId)
+	public function getAlertsbyUserId($userId)
 	{
 		$list = [];
 
@@ -75,6 +75,29 @@ class AlertsManager
 
 		return $list;
 	}	
+
+
+	public function getAlertsbyLocation($lat,$lng)
+	{
+		$list = [];
+
+		/*
+		if(is_int($userId))
+		{
+		*/
+			$q = $this->_db->query('
+				SELECT id, userId, lat, lng, title, text, dateMin, dateMax, type, status
+				FROM alerts'
+			);
+			
+			while ($datas = $q->fetch(PDO::FETCH_ASSOC))
+			{
+				$list[] = new Alert($datas);
+			}
+		//}
+
+		return $list;
+	}
 
 	// UPDATE
 	// return TRUE if affected else FALSE
