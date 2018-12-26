@@ -80,21 +80,33 @@ class AlertsManager
 	public function getAlertsbyLocation($lat,$lng)
 	{
 		$list = [];
+		$lat = floatval($lat);
+		$lng = floatval($lng);
 
-		/*
-		if(is_int($userId))
-		{
-		*/
-			$q = $this->_db->query('
-				SELECT id, userId, lat, lng, title, text, dateMin, dateMax, type, status
-				FROM alerts'
-			);
+		$q = $this->_db->query('
 			
-			while ($datas = $q->fetch(PDO::FETCH_ASSOC))
-			{
-				$list[] = new Alert($datas);
-			}
-		//}
+			SELECT
+			  id, userId, lat, lng, title, text, dateMin, dateMax, type, status,(
+			    3959 * acos (
+			      cos ( radians('.$lat.') )
+			      * cos( radians( lat ) )
+			      * cos( radians( lng ) - radians('.$lng.') )
+			      + sin ( radians('.$lat.') )
+			      * sin( radians( lat ) )
+			    )
+			  ) AS distance
+			FROM alerts
+			HAVING distance < 30
+			ORDER BY distance
+			LIMIT 0 , 20'
+
+		);
+		
+		while ($datas = $q->fetch(PDO::FETCH_ASSOC))
+		{
+			$list[] = new Alert($datas);
+		}
+
 
 		return $list;
 	}
@@ -155,6 +167,10 @@ class AlertsManager
 	    if(($q->rowCount() == 0)) return FALSE;
 	    return TRUE; 		
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+
+	
 
 }
 

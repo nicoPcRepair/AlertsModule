@@ -1,7 +1,7 @@
 <html>
 	<head>
 		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">	
-		<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">	
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 		<link href="css/style.css" rel="stylesheet">
 		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>		
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
@@ -12,9 +12,10 @@
 		function loadClass($class) { require $class . '.php'; }
 		spl_autoload_register('loadClass');
 		/////////////////////////////////////////////////////////////////////////
-		require 'vendor/autoload.php';
-		$db = new PDO('mysql:host=localhost;dbname=aireade', 'root', '');
+		//require 'vendor/autoload.php';
+		//$db = new PDO('mysql:host=localhost;dbname=aireade', 'root', '');
 		/////////////////////////////////////////////////////////////////////////
+		require 'config/db.php';
 		?>
 		<header>
 		  <!-- Fixed navbar -->
@@ -40,7 +41,7 @@
 		</header>
 
 		<!-- Begin page content -->
-		<main role="main" class="container">
+		<main role="main" class="container" style="max-width: 100%">
 			<?php
 			if(isset($_GET['page']))
 			{
@@ -63,7 +64,7 @@
 		<!-- Sticky footer -->
 		<footer class="footer">
 		  <div class="container">
-		    <span class="text-muted">OreAds&copy; - Copyright 2018 [BN]</span>
+		    <span class="text-muted"><span id='geolocationResponse'></span> OreAds&copy; - Copyright 2018 [BN]</span>
 		  </div>
 		</footer>		
 	</body>

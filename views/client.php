@@ -8,15 +8,18 @@ var options = {
 
 function success(pos) {
   var crd = pos.coords;
-
-  var response = '';
+	
+	var response = '<i class="fas fa-satellite-dish"></i>';
+	response += ' Connecté.e';
+  /*
   response += 'Votre position actuelle est :';
   response += ' Latitude : ';
   response += crd.latitude;
   response += ' Longitude : ';
   response += crd.longitude;
+  */
 
-  $('#geolocationResponse').html('<div class="alert alert-success" role="alert">'+response+'</div>');
+  $('#geolocationResponse').html('<span class="badge badge-success">'+response+'</span>');
 
   //console.log('watchPosition \r\n');
 
@@ -27,13 +30,18 @@ function error(err) {
 
 	if(err.code != 3) {
 		var response = '';
-	  response += 'Erreur :';
+	  response += 'Erreur : ';
 	  response += err.message;
 	  response += ' (';
 	  response += err.code;
 	  response += ')';  
 
-	  $('#geolocationResponse').html('<div class="alert alert-danger" role="alert">'+response+'</div>');  		
+	  $('#geolocationResponse').html('<span class="badge badge-danger">'+response+'</span>');  		
+	
+	} else {
+
+		navigator.geolocation.getCurrentPosition(success, error, options);
+
 	}
 
 }
@@ -62,23 +70,5 @@ function updateClient(lat,lng) {
 navigator.geolocation.getCurrentPosition(success, error, options);
 //navigator.geolocation.watchPosition(success, error, options);
 </script>
-
-<div id='geolocationResponse'></div>	
+	
 <div id='clientResponse'></div>	
-
-<?php
-if(!empty($listAlerts))
-{
-	foreach ($listAlerts as $alert) {
-		echo "<div style='border: 1px solid black;'>";
-		echo '['.$alert->lat().','.$alert->lng().'] by user #'.$alert->userId();
-		echo "<hr />";
-		echo '<u>'.$alert->title().'</u> <br />';
-		echo $alert->text();
-		echo "<hr />";
-		echo date('d/m/Y', $alert->dateMin());
-		echo ' > '.date('d/m/Y', $alert->dateMax());
-		echo "</div>";
-	}
-}
-?>

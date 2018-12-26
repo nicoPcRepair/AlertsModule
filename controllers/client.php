@@ -4,8 +4,6 @@ include('models/'.basename(__FILE__));
 /////////////////////////////////////////////////////////////////////////
 
 
-$listAlerts = getAlertsbyLocation($db,0,0);
-
 
 
 
